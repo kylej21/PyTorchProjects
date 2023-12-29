@@ -7,15 +7,16 @@ import time
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #parameters
-inp_size = 784 #28x28
+inp_size = 784 #28x28 Resolution
 hidden_size=500
-num_classes=10
+num_classes=10 #number of different possible classifications, in this case 10 for 0-9
 num_trainings = 2
 batch_size=100
 learning_rate = 0.001
 
+#fetch data from torchvision 
 trainData = torchvision.datasets.MNIST(root='./data',train=True,transform=transforms.ToTensor(),download=True)
-
+#seperate dataset for testing only so cases are unseen
 testData= torchvision.datasets.MNIST(root='./data',train=False,transform=transforms.ToTensor())
 
 trainLoad = torch.utils.data.DataLoader(dataset=trainData,batch_size=batch_size,shuffle=True)
@@ -32,6 +33,7 @@ for i in range(6):
     print(example_targets[i].item())
 plt.show()
 
+#creating a class that extends/inherits properties and functions from the torch Neural Network Module
 class neuralNet(nn.Module):
     def __init__(self, inp_size,hidden_size,num_classes):
         super(neuralNet,self).__init__()
